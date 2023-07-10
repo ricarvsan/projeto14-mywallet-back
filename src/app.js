@@ -1,8 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import { MongoClient, ObjectId } from 'mongodb';
-import dotenv from 'dotenv';
-import Joi from 'joi';
+import router from './routes/index.routes.js';
+
 
 // CRIAÇÃO DO APP
 const app = express();
@@ -10,19 +9,7 @@ const app = express();
 // CONFIGURAÇÕES
 app.use(cors());
 app.use(express.json());
-dotenv.config();
-
-// CONEXÃO COM DB
-const mongoClient = new MongoClient(process.env.DATABASE_URL);
-
-try {
-  await mongoClient.connect();
-  console.log('MongoDB conectado!')
-} catch (err) {
-  err => console.log(err.message)
-}
-
-const db = mongoClient.db();
+app.use(router)
 
 // LIGAR APP DO SERVER PARA OUVIR REQUISIÇÕES
 const PORT = 5000;
