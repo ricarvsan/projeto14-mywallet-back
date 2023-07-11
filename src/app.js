@@ -13,4 +13,4 @@ app.use(router)
 
 // LIGAR APP DO SERVER PARA OUVIR REQUISIÇÕES
 const port = process.env.PORT || 5000;
-app.listen(port, () => console.log(`Servidor está rodando na porta ${PORT}`)) 
+app.listen(port, () => console.log(`Servidor está rodando na porta ${port}`)) 
