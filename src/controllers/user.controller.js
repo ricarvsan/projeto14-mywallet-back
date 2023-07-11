@@ -23,7 +23,6 @@ export async function signin(req, res) {
     try {
         const user = await db.collection('users').findOne({email});
         if(!user) return res.status(404).send('Usuário não encontrado!');
-        console.log(user)
 
         const correctPassword = bcrypt.compareSync(password, user.password);
         if(!correctPassword) return res.status(401).send('Senha incorreta!');
@@ -32,7 +31,32 @@ export async function signin(req, res) {
         const token = uuid();
         await db.collection('session').insertOne({token, userId: user._id});
 
-        res.send(token)
+        res.status(200).send({token, name: user.name})
+    } catch (err) {
+        res.status(500).send(err.message)
+    }
+}
+
+export async function logout(req, res) {
+    const {token} = res.locals.session;
+
+    try {
+        await db.collection('session').deleteOne({token});
+        res.status(200).send('Usuário deslogado com sucesso!')
+
+    } catch (err) {
+        res.status(500).send(err.message)
+    }
+}
+
+export async function logged(req, res) {
+    const {token} = res.locals.session;
+
+    try {
+        const logged = await db.collection('session').findOne({token});
+        if(!logged) res.status(401).send('Usuário não logado!')
+        res.status(200).send('Usuário está logado!')
+
     } catch (err) {
         res.status(500).send(err.message)
     }
