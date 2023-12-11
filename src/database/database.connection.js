@@ -1,15 +1,16 @@
-import { MongoClient } from 'mongodb';
-import dotenv from 'dotenv';
+import { MongoClient } from 'mongodb'
+import dotenv from 'dotenv'
 
-dotenv.config();
+dotenv.config()
 
-const mongoClient = new MongoClient(process.env.DATABASE_URL);
+const mongoClient = new MongoClient(process.env.DATABASE_URL)
 
 try {
-  await mongoClient.connect();
-  console.log('MongoDB conectado!');
+  await mongoClient.connect()
+  console.log('MongoDB conectado!')
 } catch (err) {
-  err => console.log(err.message);
+  // eslint-disable-next-line no-unused-expressions
+  ;(err) => console.log(err.message)
 }
 
-export const db = mongoClient.db();
+export const db = mongoClient.db()
